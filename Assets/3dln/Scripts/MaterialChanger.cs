@@ -83,9 +83,31 @@ public class MaterialChanger : MonoBehaviour
         }
     }
 
+    private void ReapplyMaterials()
+    {
+        hasDefaultMats = true;
+        SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+        int i = 0;
+        foreach (SkinnedMeshRenderer skin in skins)
+        {
+            skin.materials = smrMaterials[i];
+            i++;
+        }
+
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        i = 0;
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            meshRenderer.materials = mrMaterials[i];
+            i++;
+        }
+    }
+
     public void SwapAllMaterials()
     {
         if (hasDefaultMats)
             ReplaceAllMaterials();
+        else
+            ReapplyMaterials();
     }
 }
