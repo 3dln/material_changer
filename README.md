@@ -6,4 +6,6 @@ Used assets from asset store:
 
 - Free [Lava Flowing Shader](https://assetstore.unity.com/packages/vfx/shaders/lava-flowing-shader-33635) by [Moonflower Carnivore](https://assetstore.unity.com/publishers/12261)
 
+- [NightSoundGames](https://assetstore.unity.com/publishers/26166)'s free [Skybox](https://assetstore.unity.com/packages/2d/textures-materials/sky/worldskies-free-86517)
+
  
