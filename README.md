@@ -8,4 +8,4 @@ Used assets from asset store:
 
 - [NightSoundGames](https://assetstore.unity.com/publishers/26166)'s free [Skybox](https://assetstore.unity.com/packages/2d/textures-materials/sky/worldskies-free-86517)
 
- 
+> No matter how many nested gameobjects your model have and how the materials has been applied to them this simple scripts reads and holds > a reference to all of them for swapping your models materials.
