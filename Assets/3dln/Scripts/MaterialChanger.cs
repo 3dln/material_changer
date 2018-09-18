@@ -15,16 +15,18 @@ public class MaterialChanger : MonoBehaviour
 
     //  List of all materials in SkinnedMeshRenderer components
     private List<Material[]> smrMaterials;
+    //  List of all materials in MeshRenderer components
+    private List<Material[]> mrMaterials;
 
     void Start()
     {
         smrMaterials = new List<Material[]>();
-
-        //Reading all the materials to reapply them later  
-        ReadAllMaterials();
+        mrMaterials = new List<Material[]>();
+        //Reading all the materials to reapply them later 
+        ReadAndChangeAllMaterials();
     }
 
-    private void ReadAllMaterials()
+    private void ReadAndChangeAllMaterials()
     {
         //  First we read all the materials in skinnedmeshrenderer components
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -39,6 +41,22 @@ public class MaterialChanger : MonoBehaviour
                     _mats[i] = rMaterial;
                 }
                 skin.materials = _mats;
+            }
+        }
+
+        // Then we read all the materials in MeshRenderer components and save them for later use
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            if (meshRenderer.material != null)
+            {
+                mrMaterials.Add(meshRenderer.materials);
+                Material[] _mats = new Material[meshRenderer.materials.Length];
+                for (int i = 0; i < _mats.Length; i++)
+                {
+                    _mats[i] = rMaterial;
+                }
+                meshRenderer.materials = _mats;
             }
         }
     }
