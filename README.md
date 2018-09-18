@@ -9,4 +9,6 @@ Used assets from asset store:
 - Free [Lava Flowing Shader](https://assetstore.unity.com/packages/vfx/shaders/lava-flowing-shader-33635) by [Moonflower Carnivore](https://assetstore.unity.com/publishers/12261)
 >>>>>>> b1a17a161b8ef0129e91bce514c00ba5cc54537e
 
+- Free [Lava Flowing Shader](https://assetstore.unity.com/packages/vfx/shaders/lava-flowing-shader-33635) by [Moonflower Carnivore](https://assetstore.unity.com/publishers/12261)
+
  
