@@ -20,8 +20,11 @@ public class MaterialChanger : MonoBehaviour
     //  To check if materials are swapped or not
     private bool hasDefaultMats = true;
 
+    private Animator animator;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         smrMaterials = new List<Material[]>();
         mrMaterials = new List<Material[]>();
         //Reading all the materials to reapply them later 
@@ -54,6 +57,10 @@ public class MaterialChanger : MonoBehaviour
     private void ReplaceAllMaterials()
     {
         hasDefaultMats = false;
+
+        // Changing the models animation for new material (Just for fun)
+        animator.SetBool("MaterialChanged", true);
+
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
         foreach (SkinnedMeshRenderer skin in skins)
         {
@@ -86,6 +93,9 @@ public class MaterialChanger : MonoBehaviour
     private void ReapplyMaterials()
     {
         hasDefaultMats = true;
+
+        animator.SetBool("MaterialChanged", false);
+
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
         int i = 0;
         foreach (SkinnedMeshRenderer skin in skins)
