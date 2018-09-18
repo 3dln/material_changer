@@ -17,16 +17,18 @@ public class MaterialChanger : MonoBehaviour
     private List<Material[]> smrMaterials;
     //  List of all materials in MeshRenderer components
     private List<Material[]> mrMaterials;
+    //  To check if materials are swapped or not
+    private bool hasDefaultMats = true;
 
     void Start()
     {
         smrMaterials = new List<Material[]>();
         mrMaterials = new List<Material[]>();
         //Reading all the materials to reapply them later 
-        ReadAndChangeAllMaterials();
+        ReadAllMaterials();
     }
 
-    private void ReadAndChangeAllMaterials()
+    private void ReadAllMaterials()
     {
         //  First we read all the materials in skinnedmeshrenderer components
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -35,12 +37,6 @@ public class MaterialChanger : MonoBehaviour
             if (skin.material != null)
             {
                 smrMaterials.Add(skin.materials);
-                Material[] _mats = new Material[skin.materials.Length];
-                for (int i = 0; i < _mats.Length; i++)
-                {
-                    _mats[i] = rMaterial;
-                }
-                skin.materials = _mats;
             }
         }
 
@@ -51,6 +47,32 @@ public class MaterialChanger : MonoBehaviour
             if (meshRenderer.material != null)
             {
                 mrMaterials.Add(meshRenderer.materials);
+            }
+        }
+    }
+
+    private void ReplaceAllMaterials()
+    {
+        hasDefaultMats = false;
+        SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (SkinnedMeshRenderer skin in skins)
+        {
+            if (skin.material != null)
+            {
+                Material[] _mats = new Material[skin.materials.Length];
+                for (int i = 0; i < _mats.Length; i++)
+                {
+                    _mats[i] = rMaterial;
+                }
+                skin.materials = _mats;
+            }
+        }
+
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            if (meshRenderer.material != null)
+            {
                 Material[] _mats = new Material[meshRenderer.materials.Length];
                 for (int i = 0; i < _mats.Length; i++)
                 {
@@ -59,5 +81,11 @@ public class MaterialChanger : MonoBehaviour
                 meshRenderer.materials = _mats;
             }
         }
+    }
+
+    public void SwapAllMaterials()
+    {
+        if (hasDefaultMats)
+            ReplaceAllMaterials();
     }
 }
