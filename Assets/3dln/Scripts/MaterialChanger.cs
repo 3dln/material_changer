@@ -22,6 +22,9 @@ public class MaterialChanger : MonoBehaviour
 
     private Animator animator;
 
+    //  Speed of lava shader scrolling
+    public float scrollSpeed = 0.5F;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,6 +32,15 @@ public class MaterialChanger : MonoBehaviour
         mrMaterials = new List<Material[]>();
         //Reading all the materials to reapply them later 
         ReadAllMaterials();
+    }
+
+    private void Update()
+    {
+        //  Check if the material has been swapped
+        if (!hasDefaultMats)
+        {
+            rMaterial.mainTextureOffset = new Vector2(0,Time.time * scrollSpeed);
+        }
     }
 
     private void ReadAllMaterials()
