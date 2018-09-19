@@ -7,135 +7,138 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialChanger : MonoBehaviour
+namespace TDLN
 {
-
-    //  The material which we want to change to
-    public Material rMaterial;
-
-    //  List of all materials in SkinnedMeshRenderer components
-    private List<Material[]> smrMaterials;
-    //  List of all materials in MeshRenderer components
-    private List<Material[]> mrMaterials;
-    //  To check if materials are swapped or not
-    private bool hasDefaultMats = true;
-
-    private Animator animator;
-    private AudioSource[] audios;
-
-    //  Speed of lava shader scrolling
-    public float scrollSpeed = 0.5F;
-
-    void Start()
+    public class MaterialChanger : MonoBehaviour
     {
-        audios = GetComponents<AudioSource>();
-        animator = GetComponent<Animator>();
-        smrMaterials = new List<Material[]>();
-        mrMaterials = new List<Material[]>();
-        //Reading all the materials to reapply them later 
-        ReadAllMaterials();
-    }
 
-    private void Update()
-    {
-        //  Check if the material has been swapped
-        if (!hasDefaultMats)
+        //  The material which we want to change to
+        public Material rMaterial;
+
+        //  List of all materials in SkinnedMeshRenderer components
+        private List<Material[]> smrMaterials;
+        //  List of all materials in MeshRenderer components
+        private List<Material[]> mrMaterials;
+        //  To check if materials are swapped or not
+        private bool hasDefaultMats = true;
+
+        private Animator animator;
+        private AudioSource[] audios;
+
+        //  Speed of lava shader scrolling
+        public float scrollSpeed = 0.5F;
+
+        void Start()
         {
-            rMaterial.mainTextureOffset = new Vector2(0,Time.time * scrollSpeed);
+            audios = GetComponents<AudioSource>();
+            animator = GetComponent<Animator>();
+            smrMaterials = new List<Material[]>();
+            mrMaterials = new List<Material[]>();
+            //Reading all the materials to reapply them later 
+            ReadAllMaterials();
         }
-    }
 
-    private void ReadAllMaterials()
-    {
-        //  First we read all the materials in skinnedmeshrenderer components
-        SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-        foreach (SkinnedMeshRenderer skin in skins)
+        private void Update()
         {
-            if (skin.material != null)
+            //  Check if the material has been swapped
+            if (!hasDefaultMats)
             {
-                smrMaterials.Add(skin.materials);
+                rMaterial.mainTextureOffset = new Vector2(0, Time.time * scrollSpeed);
             }
         }
 
-        // Then we read all the materials in MeshRenderer components and save them for later use
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        private void ReadAllMaterials()
         {
-            if (meshRenderer.material != null)
+            //  First we read all the materials in skinnedmeshrenderer components
+            SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (SkinnedMeshRenderer skin in skins)
             {
-                mrMaterials.Add(meshRenderer.materials);
-            }
-        }
-    }
-
-    private void ReplaceAllMaterials()
-    {
-        hasDefaultMats = false;
-
-        // Changing the models animation for new material (Just for fun)
-        animator.SetBool("MaterialChanged", true);
-        audios[1].Stop();
-        audios[0].Play();
-
-        SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-        foreach (SkinnedMeshRenderer skin in skins)
-        {
-            if (skin.material != null)
-            {
-                Material[] _mats = new Material[skin.materials.Length];
-                for (int i = 0; i < _mats.Length; i++)
+                if (skin.material != null)
                 {
-                    _mats[i] = rMaterial;
+                    smrMaterials.Add(skin.materials);
                 }
-                skin.materials = _mats;
             }
-        }
 
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer meshRenderer in meshRenderers)
-        {
-            if (meshRenderer.material != null)
+            // Then we read all the materials in MeshRenderer components and save them for later use
+            MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer meshRenderer in meshRenderers)
             {
-                Material[] _mats = new Material[meshRenderer.materials.Length];
-                for (int i = 0; i < _mats.Length; i++)
+                if (meshRenderer.material != null)
                 {
-                    _mats[i] = rMaterial;
+                    mrMaterials.Add(meshRenderer.materials);
                 }
-                meshRenderer.materials = _mats;
             }
         }
-    }
 
-    private void ReapplyMaterials()
-    {
-        hasDefaultMats = true;
-
-        animator.SetBool("MaterialChanged", false);
-        audios[0].Stop();
-        audios[1].Play();
-
-        SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-        int i = 0;
-        foreach (SkinnedMeshRenderer skin in skins)
+        private void ReplaceAllMaterials()
         {
-            skin.materials = smrMaterials[i];
-            i++;
+            hasDefaultMats = false;
+
+            // Changing the models animation for new material (Just for fun)
+            animator.SetBool("MaterialChanged", true);
+            audios[1].Stop();
+            audios[0].Play();
+
+            SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (SkinnedMeshRenderer skin in skins)
+            {
+                if (skin.material != null)
+                {
+                    Material[] _mats = new Material[skin.materials.Length];
+                    for (int i = 0; i < _mats.Length; i++)
+                    {
+                        _mats[i] = rMaterial;
+                    }
+                    skin.materials = _mats;
+                }
+            }
+
+            MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer meshRenderer in meshRenderers)
+            {
+                if (meshRenderer.material != null)
+                {
+                    Material[] _mats = new Material[meshRenderer.materials.Length];
+                    for (int i = 0; i < _mats.Length; i++)
+                    {
+                        _mats[i] = rMaterial;
+                    }
+                    meshRenderer.materials = _mats;
+                }
+            }
         }
 
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        i = 0;
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        private void ReapplyMaterials()
         {
-            meshRenderer.materials = mrMaterials[i];
-            i++;
-        }
-    }
+            hasDefaultMats = true;
 
-    public void SwapAllMaterials()
-    {
-        if (hasDefaultMats)
-            ReplaceAllMaterials();
-        else
-            ReapplyMaterials();
+            animator.SetBool("MaterialChanged", false);
+            audios[0].Stop();
+            audios[1].Play();
+
+            SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
+            int i = 0;
+            foreach (SkinnedMeshRenderer skin in skins)
+            {
+                skin.materials = smrMaterials[i];
+                i++;
+            }
+
+            MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            i = 0;
+            foreach (MeshRenderer meshRenderer in meshRenderers)
+            {
+                meshRenderer.materials = mrMaterials[i];
+                i++;
+            }
+        }
+
+        public void SwapAllMaterials()
+        {
+            if (hasDefaultMats)
+                ReplaceAllMaterials();
+            else
+                ReapplyMaterials();
+        }
     }
 }
