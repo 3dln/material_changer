@@ -10,4 +10,4 @@ Used assets from asset store:
 
 > No matter how many nested gameobjects your model have and how the materials has been applied to them this simple scripts reads and holds a reference to all of them for swapping your models materials.
 
-
+[![Alt text](https://img.youtube.com/vi/a0ujVyPkMs8/0.jpg)](https://www.youtube.com/watch?v=a0ujVyPkMs8)
