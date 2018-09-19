@@ -21,12 +21,14 @@ public class MaterialChanger : MonoBehaviour
     private bool hasDefaultMats = true;
 
     private Animator animator;
+    private AudioSource[] audios;
 
     //  Speed of lava shader scrolling
     public float scrollSpeed = 0.5F;
 
     void Start()
     {
+        audios = GetComponents<AudioSource>();
         animator = GetComponent<Animator>();
         smrMaterials = new List<Material[]>();
         mrMaterials = new List<Material[]>();
@@ -72,6 +74,8 @@ public class MaterialChanger : MonoBehaviour
 
         // Changing the models animation for new material (Just for fun)
         animator.SetBool("MaterialChanged", true);
+        audios[1].Stop();
+        audios[0].Play();
 
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
         foreach (SkinnedMeshRenderer skin in skins)
@@ -107,6 +111,8 @@ public class MaterialChanger : MonoBehaviour
         hasDefaultMats = true;
 
         animator.SetBool("MaterialChanged", false);
+        audios[0].Stop();
+        audios[1].Play();
 
         SkinnedMeshRenderer[] skins = GetComponentsInChildren<SkinnedMeshRenderer>();
         int i = 0;
